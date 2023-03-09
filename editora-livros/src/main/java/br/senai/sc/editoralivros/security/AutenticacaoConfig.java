@@ -42,8 +42,8 @@ public class AutenticacaoConfig {
         httpSecurity.authorizeRequests()
                 // Libera o acesso sem autenticação para /login
                 .antMatchers("/editora-livros-api/", "/editora-livros-api/usuarios",
-                        "/editora-livros-api/pessoa").permitAll()
                 // Determina que todas as demais requisições terão de ser autenticadas
+                        "/editora-livros-api/pessoa", "/login").permitAll()
                 .anyRequest().authenticated();
         httpSecurity.csrf().disable().cors().disable();
         httpSecurity.formLogin().permitAll()
@@ -52,8 +52,7 @@ public class AutenticacaoConfig {
         // Não permite que a sessão do usuário fique ativa
         httpSecurity.sessionManagement().sessionCreationPolicy(
                 SessionCreationPolicy.STATELESS);
-        // Toda vez que haja uma requisição ela deverá passar pelo AutenticacaoFiltro
-        // (onde acontece a validação do TOKEN)
+        // Toda vez que haja uma requisição ela deverá passar pelo AutenticacaoFiltro (onde acontece a validação do TOKEN)
         httpSecurity.addFilterBefore(new AutenticacaoFiltro(new TokenUtils(), jpaService),
                 UsernamePasswordAuthenticationFilter.class);
         return httpSecurity.build();

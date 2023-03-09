@@ -26,7 +26,7 @@ public class AutenticacaoController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    @PostMapping
+    @PostMapping("/auth")
     public ResponseEntity<Object> autenticacao(
             @RequestBody @Valid UsuarioDTO usuarioDTO) {
 

@@ -23,54 +23,48 @@ public class PessoaController {
     private PessoaService pessoaService;
 
     @GetMapping("/email/{email}")
-    public ResponseEntity<Object> findByEmail(
-            @PathVariable(value = "email") String email) {
-        Optional<Pessoa> pessoaOptional =
-                pessoaService.findByEmail(email);
+    public ResponseEntity<Object> findByEmail(@PathVariable(value = "email") String email) {
+        Optional<Pessoa> pessoaOptional = pessoaService.findByEmail(email);
+
         if (pessoaOptional.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("Não foi encontrada nenhuma pessoa " +
                             "com este E-mail");
         }
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(pessoaOptional.get());
+
+        return ResponseEntity.status(HttpStatus.OK).body(pessoaOptional.get());
     }
     @GetMapping("/{cpf}")
-    public ResponseEntity<Object> findById(
-            @PathVariable(value = "cpf") Long cpf) {
-        Optional<Pessoa> pessoaOptional =
-                pessoaService.findById(cpf);
+    public ResponseEntity<Object> findById(@PathVariable(value = "cpf") Long cpf) {
+        Optional<Pessoa> pessoaOptional = pessoaService.findById(cpf);
+
         if (pessoaOptional.isEmpty()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("Não foi encontrada nenhuma pessoa " +
-                            "com este CPF");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não foi encontrada nenhuma pessoa com este CPF");
         }
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(pessoaOptional.get());
+
+        return ResponseEntity.status(HttpStatus.OK).body(pessoaOptional.get());
     }
+
     @GetMapping
     public ResponseEntity<List<Pessoa>> findAll() {
-        return ResponseEntity.status(HttpStatus.OK)
-            .body(pessoaService.findAll());
+        return ResponseEntity.status(HttpStatus.OK).body(pessoaService.findAll());
     }
 
     @PostMapping
-    public ResponseEntity<Object> save(
-            @RequestBody @Valid PessoaDTO pessoaDTO) {
+    public ResponseEntity<Object> save(@RequestBody @Valid PessoaDTO pessoaDTO) {
         if(pessoaService.existsById(pessoaDTO.getCpf())) {
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body("Este CPF já está cadastrado.");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Este CPF já está cadastrado.");
         }
+
         if (pessoaService.existsByEmail(pessoaDTO.getEmail())){
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body("Este E-mail já está cadastrado.");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Este E-mail já está cadastrado.");
         }
+
         Pessoa pessoa = new Pessoa();
         BeanUtils.copyProperties(pessoaDTO, pessoa);
 //        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 //        pessoa.setSenha(encoder.encode(pessoa.getSenha()));
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(pessoaService.save(pessoa));
+        return ResponseEntity.status(HttpStatus.OK).body(pessoaService.save(pessoa));
     }
 
 //    @PostMapping
@@ -86,12 +80,10 @@ public class PessoaController {
     @DeleteMapping("/{cpf}")
     public ResponseEntity<Object> deleteById(@PathVariable(value = "cpf") Long cpf) {
         if (!pessoaService.existsById(cpf)){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("Não foi encontrada nenhuma pessoa " +
-                            "com este CPF");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não foi encontrada nenhuma pessoa com este CPF");
         }
+
         pessoaService.deleteById(cpf);
-        return ResponseEntity.status(HttpStatus.OK)
-            .body("Pessoa deletada.");
+        return ResponseEntity.status(HttpStatus.OK).body("Pessoa deletada.");
     }
 }
