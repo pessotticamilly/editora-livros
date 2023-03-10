@@ -24,19 +24,20 @@ public class AutenticacaoFiltro extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        if (request.getRequestURI().equals("/login")) {
+        if (request.getRequestURI().equals("/login") || request.getRequestURI().equals("/login/auth") ) {
             filterChain.doFilter(request, response);
             return;
         }
 
         // Verifica se exite um TOKEN
-        String token = request.getHeader("Authorization");
-        if (token != null && token.startsWith("Bearer ")) {
-            token = token.substring(7);
-        } else {
-            token = null;
-        }
+//        String token = request.getHeader("Authorization");
+//        if (token != null && token.startsWith("Bearer ")) {
+//            token = token.substring(7);
+//        } else {
+//            token = null;
+//        }
 
+        String token = tokenUtils.buscarCookie(request);
         Boolean valido = tokenUtils.validarToken(token);
 
         if (valido) {

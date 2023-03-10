@@ -3,6 +3,7 @@ package br.senai.sc.editoralivros.security;
 import br.senai.sc.editoralivros.security.service.GoogleService;
 import br.senai.sc.editoralivros.security.service.JpaService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,6 +26,7 @@ public class AutenticacaoConfig {
 
     private GoogleService googleService;
 
+    @Autowired
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(jpaService)
                 .passwordEncoder(NoOpPasswordEncoder.getInstance());
@@ -43,10 +45,10 @@ public class AutenticacaoConfig {
                 // Libera o acesso sem autenticação para /login
                 .antMatchers("/editora-livros-api/", "/editora-livros-api/usuarios",
                 // Determina que todas as demais requisições terão de ser autenticadas
-                        "/editora-livros-api/pessoa", "/login").permitAll()
+                        "/editora-livros-api/pessoa", "/login", "/login/auth").permitAll()
                 .anyRequest().authenticated();
         httpSecurity.csrf().disable().cors().disable();
-        httpSecurity.formLogin().permitAll()
+        httpSecurity.formLogin().usernameParameter("email").passwordParameter("senha").permitAll()
                 .and()
                 .logout().permitAll();
         // Não permite que a sessão do usuário fique ativa
