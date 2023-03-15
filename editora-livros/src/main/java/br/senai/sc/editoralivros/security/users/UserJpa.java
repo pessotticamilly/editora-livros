@@ -6,9 +6,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Value;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 // Faz a ligação entre o userDetails (usuário de autenticação) com a classe Pessoa
 @Data
@@ -26,7 +29,7 @@ public class UserJpa implements UserDetails {
 
     private boolean enabled = true;
 
-    public UserJpa(Pessoa pessoa){
+    public UserJpa(Pessoa pessoa) {
         this.pessoa = pessoa;
     }
 
@@ -39,4 +42,12 @@ public class UserJpa implements UserDetails {
     public String getUsername() {
         return pessoa.getEmail();
     }
+
+    @Override
+    public Collection<GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(this.getPessoa().getClass().getSimpleName()));
+        return authorities;
+    }
+
 }
