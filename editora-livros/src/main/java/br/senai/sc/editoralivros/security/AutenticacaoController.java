@@ -24,9 +24,6 @@ public class AutenticacaoController {
 
     private TokenUtils tokenUtils = new TokenUtils();
 
-//    @Autowired
-//    private JpaService jpaService;
-
     @Autowired
     private AuthenticationManager authenticationManager;
 
@@ -39,14 +36,9 @@ public class AutenticacaoController {
         System.out.println(authentication.isAuthenticated());
 
         if (authentication.isAuthenticated()) {
-            String token = tokenUtils.gerarToken(authentication);
-            // Parâmetros do Cookie: String que vai ser o nome para recuperar em algum momento e o valor
-            Cookie cookie = new Cookie("jwt", token);
-            cookie.setPath("/");
+            response.addCookie(tokenUtils.gerarCookie(authentication));
             UserJpa userJpa = (UserJpa) authentication.getPrincipal();
-            Pessoa pessoa = userJpa.getPessoa();
-            response.addCookie(cookie);
-            return ResponseEntity.status(HttpStatus.OK).body(pessoa);
+            return ResponseEntity.ok(userJpa.getPessoa());
         }
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

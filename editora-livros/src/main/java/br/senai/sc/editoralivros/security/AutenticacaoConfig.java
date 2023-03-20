@@ -16,6 +16,11 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 @Configuration
 @AllArgsConstructor
@@ -33,6 +38,23 @@ public class AutenticacaoConfig {
                 .passwordEncoder(NoOpPasswordEncoder.getInstance());
     }
 
+    // Configurações do Cors
+    private CorsConfigurationSource configurationSource(){
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        // Origens permitidas
+        corsConfiguration.setAllowedOrigins(List.of("https://localhost:3000"));
+        // Métodos que a aplicação poderá realizar
+        corsConfiguration.setAllowedMethods(List.of("POST", "DELETE", "PUT", "GET"));
+        // Configura a troca de informações de cookies entre as aplicações
+        corsConfiguration.setAllowCredentials(true);
+        // Configura os cabeçalhos de requisições
+        corsConfiguration.setAllowedHeaders(List.of("*"));
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", corsConfiguration);
+
+        return source;
+    }
+
     // Configura as autorizações de acesso
 
     @Bean
@@ -48,10 +70,9 @@ public class AutenticacaoConfig {
                 // Delimita que o acesso a essa rota seja feita apenas por autores
                 .antMatchers(HttpMethod.POST, "/editora-livros-api/livro").hasAnyAuthority("Autor")
                 .anyRequest().authenticated();
-        httpSecurity.csrf().disable().cors().disable();
-        httpSecurity.formLogin().usernameParameter("email").passwordParameter("senha").permitAll()
-                .and()
-                .logout().permitAll();
+        httpSecurity.csrf().disable();
+        httpSecurity.cors().configurationSource(configurationSource());
+        httpSecurity.logout().permitAll();
         // Não permite que a sessão do usuário fique ativa
         httpSecurity.sessionManagement().sessionCreationPolicy(
                 SessionCreationPolicy.STATELESS);
