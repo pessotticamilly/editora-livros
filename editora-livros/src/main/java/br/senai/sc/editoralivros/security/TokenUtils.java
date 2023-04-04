@@ -31,7 +31,7 @@ public class TokenUtils {
         // Parâmetros do Cookie: String que vai ser o nome para recuperar em algum momento e o valor
         Cookie cookie = new Cookie("jwt", gerarToken(authentication));
         cookie.setPath("/");
-        cookie.setSecure(true);
+//        cookie.setSecure(true);
         cookie.setMaxAge(3600);
         return cookie;
     }
