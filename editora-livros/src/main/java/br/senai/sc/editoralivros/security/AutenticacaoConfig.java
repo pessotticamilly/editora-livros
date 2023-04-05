@@ -18,6 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class AutenticacaoConfig {
     @Bean
     protected SecurityFilterChain configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeRequests()
-                .antMatchers("/login", "/login/auth", "/logout").permitAll()
+                .antMatchers("/login", "/login/auth", "/logout", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/favicon.ico").permitAll()
                 .antMatchers(HttpMethod.POST, "/editora/livro").hasAuthority("Autor")
                 .anyRequest().authenticated();
         httpSecurity.csrf().disable();

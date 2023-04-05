@@ -23,7 +23,7 @@ import java.util.Optional;
 
 @AllArgsConstructor
 @RequestMapping("/editora/livro")
-@Controller
+@RestController
 public class LivroController {
     @Autowired
     private LivroService livroService;
