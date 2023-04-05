@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @AllArgsConstructor
-@Controller
+@RestController
 @RequestMapping("/editora-livros-api/pessoa")
 public class PessoaController {
     private PessoaService pessoaService;

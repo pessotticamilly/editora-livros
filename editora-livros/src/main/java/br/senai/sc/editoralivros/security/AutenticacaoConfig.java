@@ -66,7 +66,7 @@ public class AutenticacaoConfig {
 
         httpSecurity.authorizeRequests()
                 // Libera o acesso sem autenticação para /login
-                .antMatchers("/login", "/login/auth", "/logout").permitAll()
+                .antMatchers("/login", "/login/auth", "/logout", "/v3/api-docs/**", "/swagger-ui/**").permitAll()
                 // Delimita que o acesso a essa rota seja feita apenas por autores
                 .antMatchers(HttpMethod.POST, "/editora-livros-api/livro").hasAnyAuthority("Autor")
                 .anyRequest().authenticated();

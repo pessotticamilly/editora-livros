@@ -23,7 +23,7 @@ import java.util.Optional;
 
 @AllArgsConstructor
 @RequestMapping("/editora-livros-api/livro")
-@Controller
+@RestController
 public class LivroController {
 
     private LivroService livroService;
