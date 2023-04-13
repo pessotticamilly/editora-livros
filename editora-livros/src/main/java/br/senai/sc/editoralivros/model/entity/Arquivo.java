@@ -5,7 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "tb_arquivos")
+@Table(name = "arquivos")
 @NoArgsConstructor
 @AllArgsConstructor
 @RequiredArgsConstructor

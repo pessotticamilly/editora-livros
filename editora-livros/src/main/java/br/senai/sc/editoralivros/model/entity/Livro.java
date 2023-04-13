@@ -7,12 +7,14 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "tb_livros")
+@Table(name = "livros")
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter @Setter @ToString @EqualsAndHashCode
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode
 public class Livro {
-
     @Id
 //    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(length = 13, nullable = false, unique = true)
@@ -22,11 +24,11 @@ public class Livro {
     private String titulo;
 
     @ManyToMany
-    @JoinTable(name = "tb_livro_autor",
-        joinColumns =
-        @JoinColumn(name = "isbn_livro", nullable = false),
-        inverseJoinColumns =
-        @JoinColumn(name = "cpf_autor", nullable = false))
+    @JoinTable(name = "livros_autores",
+            joinColumns =
+            @JoinColumn(name = "isbn_livro", nullable = false),
+            inverseJoinColumns =
+            @JoinColumn(name = "cpf_autor", nullable = false))
     private List<Autor> autores;
 
     @Column(nullable = false)

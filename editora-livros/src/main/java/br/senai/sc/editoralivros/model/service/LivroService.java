@@ -18,31 +18,31 @@ public class LivroService {
 
     private LivroRepository livroRepository;
 
-    public Livro save(Livro livro){
+    public Livro save(Livro livro) {
         return livroRepository.save(livro);
     }
 
-    public Optional<Livro> findById(Long isbn){
+    public Optional<Livro> findById(Long isbn) {
         return livroRepository.findById(isbn);
     }
 
-    public List<Livro> findByStatus(Status status){
+    public List<Livro> findByStatus(Status status) {
         return livroRepository.findByStatus(status);
     }
 
-    public List<Livro> findByAutor(Autor autor){
+    public List<Livro> findByAutor(Autor autor) {
         return livroRepository.findByAutores(autor);
     }
 
-    public List<Livro> findAll(){
+    public List<Livro> findAll() {
         return livroRepository.findAll();
     }
 
-    public Page<Livro> findAll(Pageable pageable){
+    public Page<Livro> findAll(Pageable pageable) {
         return livroRepository.findAll(pageable);
     }
 
-    public void deleteById(Long isbn){
+    public void deleteById(Long isbn) {
         livroRepository.deleteById(isbn);
     }
 
@@ -50,8 +50,7 @@ public class LivroService {
         return livroRepository.existsById(isbn);
     }
 
-
-    public List<Livro> findByIsbnAndStatus(Long isbn, Status status){
+    public List<Livro> findByIsbnAndStatus(Long isbn, Status status) {
         return livroRepository.findByIsbnAndStatus(isbn, status);
     }
 }

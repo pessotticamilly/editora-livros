@@ -8,12 +8,12 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter @Setter
 @Entity
-@Table(name = "tb_editora")
+@Table(name = "editoras")
 @ToString @EqualsAndHashCode
 public class Editora {
-
     @Id
     @Column(length = 14, nullable = false, unique = true)
     private Long cnpj;

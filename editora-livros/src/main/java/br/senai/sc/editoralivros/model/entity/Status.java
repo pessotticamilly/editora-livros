@@ -6,6 +6,5 @@ public enum Status {
     APROVADO(),
     AGUARDANDO_EDICAO(),
     REPROVADO(),
-    PUBLICADO();
-//    String nome;
+    PUBLICADO()
 }
